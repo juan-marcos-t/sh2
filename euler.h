@@ -29,6 +29,6 @@ float q_to_roll(float r, float i, float j, float k);
 
 // Get Yaw, Pitch and Roll from quaternion
 void q_to_ypr(float r, float i, float j, float k,
-              float *pRoll, float *pPitch, float *pYaw);
+              float *pYaw, float *pPitch, float *pRoll);
 
 #endif
