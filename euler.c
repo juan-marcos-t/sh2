@@ -58,7 +58,7 @@ float q_to_roll(float r, float i, float j, float k)
     return roll;
 }
 
-void q_to_ypr(float r, float i, float j, float k, float *pYaw, float *pPitch, float *pRoll)
+void q_to_ypr(float r, float i, float j, float k, float *pRoll, float *pPitch, float *pYaw)
 {
     // convert to Euler Angles
     float num = 2.0f * i * j - 2.0f * r * k;
