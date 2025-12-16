@@ -198,6 +198,17 @@ static void rxAssemble(shtp_t *pShtp, uint8_t *in, uint16_t len, uint32_t t_us)
     chan = in[2];
     seq = in[3];
 
+    if (chan >= SHTP_MAX_CHANS) {
+        // Invalid channel id.
+        pShtp->rxBadChan++;
+
+        if (pShtp->eventCallback) {
+            pShtp->eventCallback(pShtp->eventCookie, SHTP_BAD_RX_CHAN);
+        }
+        return;
+    }
+
+
     if (seq != pShtp->chan[chan].nextInSeq){
         if (pShtp->eventCallback) {
             pShtp->eventCallback(pShtp->eventCookie,
@@ -209,16 +220,6 @@ static void rxAssemble(shtp_t *pShtp, uint8_t *in, uint16_t len, uint32_t t_us)
         pShtp->rxShortFragments++;
         if (pShtp->eventCallback) {
             pShtp->eventCallback(pShtp->eventCookie, SHTP_SHORT_FRAGMENT);
-        }
-        return;
-    }
-        
-    if (chan >= SHTP_MAX_CHANS) {
-        // Invalid channel id.
-        pShtp->rxBadChan++;
-
-        if (pShtp->eventCallback) {
-            pShtp->eventCallback(pShtp->eventCookie, SHTP_BAD_RX_CHAN);
         }
         return;
     }
