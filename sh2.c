@@ -887,9 +887,11 @@ static void getProdIdRx(sh2_t *pSh2, const uint8_t *payload, uint16_t len)
     }
 
     // Complete this operation if there is no storage for more product ids
-    if ((pSh2->opData.getProdIds.pProdIds == 0) ||
-        (pSh2->opData.getProdIds.nextEntry >= pSh2->opData.getProdIds.expectedEntries)) {
-        
+    if (pSh2->opData.getProdIds.pProdIds == 0){
+        opCompleted(pSh2, SH2_OK);
+        return;
+    }
+    if (pSh2->opData.getProdIds.nextEntry >= pSh2->opData.getProdIds.expectedEntries) {
         pSh2->opData.getProdIds.pProdIds->numEntries = pSh2->opData.getProdIds.nextEntry;
         opCompleted(pSh2, SH2_OK);
     }
